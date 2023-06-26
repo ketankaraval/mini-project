@@ -3,12 +3,16 @@ import classes from "./adduser.module.css";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 import ErrorModule from "../UI/ErrorModule";
+import { useRef } from "react";
+import Wrapper from '../Helper/Wrapper'
 // import UsersList from "./UsersList";
 const AddUser = (props) => {
   const intialValue = {
     name: "",
     age: "",
   };
+  const nameInput = useRef()
+  const ageInput = useRef()
 
   const [userData, setUserData] = useState(intialValue);
   const [error, setError] = useState();
@@ -18,8 +22,8 @@ const AddUser = (props) => {
   };
   const displayData = (event) => {
     event.preventDefault();
-    const userName = event.target.name.value;
-    const userAge = event.target.age.value;
+    const userName = nameInput.current.value;
+    const userAge = ageInput.current.value;
     if (userName === "" || userAge === "") {
       setError({
         title: "Blank Input",
@@ -45,7 +49,7 @@ const AddUser = (props) => {
   // console.log(users)
 
   return (
-    <div>
+    <Wrapper>
       {error && (
         <ErrorModule
           onConfirm={errorHandler}
@@ -62,6 +66,7 @@ const AddUser = (props) => {
             name="name"
             value={userData.name}
             onChange={handleChange}
+            ref={nameInput}
           />
           <label htmlFor="age"> Age (Years)</label>
           <input
@@ -70,11 +75,12 @@ const AddUser = (props) => {
             name="age"
             value={userData.age}
             onChange={handleChange}
+            ref={ageInput}
           />
           <Button type="submit">Add User</Button>
         </form>
       </Card>
-    </div>
+    </Wrapper>
   );
 };
 
